@@ -32,8 +32,14 @@
 #include "sysemu/sysemu.h"
 #include "hw/sysbus.h"
 #include "sysemu/qtest.h"
+#include "hw/char/optimsoc.h"
 
 #define KERNEL_LOAD_ADDR 0x100
+
+/*
+ * Base physical address for network adapter.
+ */
+#define OPTIMSOC_NA_BASE_HWADDR 0xe0100000
 
 static void main_cpu_reset(void *opaque)
 {
@@ -133,6 +139,8 @@ static void openrisc_sim_init(MachineState *machine)
         openrisc_sim_net_init(get_system_memory(), 0x92000000,
                               0x92000400, cpu->env.irq[4], nd_table);
     }
+
+	optimsoc_na_mm_init(get_system_memory(), OPTIMSOC_NA_BASE_HWADDR, cpu->env.irq[3]);
 
     cpu_openrisc_load_kernel(ram_size, kernel_filename, cpu);
 }
