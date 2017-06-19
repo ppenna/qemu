@@ -135,12 +135,12 @@ static void openrisc_sim_init(MachineState *machine)
     serial_mm_init(get_system_memory(), 0x90000000, 0, cpu->env.irq[2],
                    115200, serial_hds[0], DEVICE_NATIVE_ENDIAN);
 
-	optimsoc_na_mm_init(get_system_memory(), OPTIMSOC_NA_BASE_HWADDR, cpu->env.irq[3]);
-
     if (nd_table[0].used) {
         openrisc_sim_net_init(get_system_memory(), 0x92000000,
                               0x92000400, cpu->env.irq[4], nd_table);
     }
+
+	optimsoc_na_mm_init(get_system_memory(), OPTIMSOC_NA_BASE_HWADDR, cpu->env.irq[5]);
 
     cpu_openrisc_load_kernel(ram_size, kernel_filename, cpu);
 }

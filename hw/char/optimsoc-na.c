@@ -186,9 +186,6 @@ static void buffer_write(hwaddr addr, uint32_t word)
 	int i;
 	int ep;
 
-	DEBUG("buffer write");
-	qemu_irq_raise(info.irq);
-
 	/* Enable operation. */
 	if ((addr & OPTIMSOC_REG_MASK) == OPTIMSOC_REG_OFF_ENABLE)
 	{
@@ -210,6 +207,8 @@ static void buffer_write(hwaddr addr, uint32_t word)
 	i = buffers[ep].tail;
 	buffers[ep].data[i] = word;
 	buffers[ep].tail = (buffers[ep].tail + 1)%BUFSIZE;
+
+	qemu_irq_raise(info.irq);
 }
 
 /*============================================================================*
